@@ -105,14 +105,13 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   popd
 )
 
-:: 4. Build the project and copy artifacts to output dir
+:: 4. Build the project and copy artifacts (from wwwroot\dist) to output dir (i.e. wwwroot dir)
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd !NPM_CMD! install -g @angular/cli
   call :ExecuteCmd ng build
   IF EXIST "%DEPLOYMENT_TARGET%\dist" (
-    call :ExecuteCmd move /Y "%DEPLOYMENT_TARGET%\dist" "%DEPLOYMENT_TARGET%"
-
+    call :ExecuteCmd move /Y "%DEPLOYMENT_TARGET%\dist\*" "%DEPLOYMENT_TARGET%"
   )
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
