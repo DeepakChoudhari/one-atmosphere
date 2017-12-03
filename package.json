@@ -4,7 +4,7 @@
   "license": "MIT",
   "scripts": {
     "ng": "ng",
-    "start": "node -e '.\\node_modules\\@angular\\cli\\bin\\ng serve'",
+    "start": "node -e '.\\node_modules\\bin\\ng serve'",
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
