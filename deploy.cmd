@@ -101,12 +101,22 @@ call :SelectNodeVersion
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd !NPM_CMD! install
-  call :ExecuteCmd !NPM_CMD! install -g @angular/cli
-  call :ExecuteCmd ng build
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
-I
+
+:: 4. Build the project and copy artifacts to output dir
+IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  pushd "%DEPLOYMENT_TARGET%"
+  call :ExecuteCmd !NPM_CMD! install -g @angular/cli
+  call :ExecuteCmd ng build
+  IF EXIST "%DEPLOYMENT_TARGET%\dist" (
+    call :ExecuteCmd move /Y "%DEPLOYMENT_TARGET%\dist" "%DEPLOYMENT_TARGET%"
+
+  )
+  IF !ERRORLEVEL! NEQ 0 goto error
+  popd
+)
 
 ::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 goto end
