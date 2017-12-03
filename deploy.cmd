@@ -101,7 +101,8 @@ call :SelectNodeVersion
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd !NPM_CMD! install
-  call :ExecuteCmd %DEPLOYMENT_TARGET%\node_modules\.bin\ng build
+  call :ExecuteCmd !NPM_CMD! install -g @angular/cli
+  call :ExecuteCmd ng build
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
